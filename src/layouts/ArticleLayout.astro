@@ -20,7 +20,13 @@ const { title, subtitle, date, number, label, topic, visibility } = entry.data;
 const sections = headings.filter((h) => h.depth === 2);
 const showToc = sections.length >= 2;
 ---
-<BaseLayout title={title} description={subtitle} noindex={visibility === 'unlisted'}>
+<BaseLayout
+  title={title}
+  description={subtitle}
+  noindex={visibility === 'unlisted'}
+  ogImage={`/og/writing/${entry.id}.png`}
+  published={date}
+>
   <ProgressBar />
   <div class="grid">
     <aside>

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import IndexRow from '../components/IndexRow.astro';
 import { getWriting, isListed } from '../lib/writing';
+import { HOME } from '../lib/site';
 
 // Featured first, then newest first. Unlisted pieces never appear.
 const rows = (await getWriting())
@@ -13,15 +14,12 @@ const rows = (await getWriting())
       b.data.number - a.data.number,
   );
 const latestYear = Math.max(...rows.map((e) => e.data.date.getUTCFullYear()));
-
-const description =
-  'Long-form research and operational analysis on how teams are actually built, run, and held accountable. Written by Matthew Meyer.';
 ---
-<BaseLayout description={description}>
+<BaseLayout description={HOME.description}>
   <div class="statement">
-    <p class="kicker">Work. Achieve. Repeat.</p>
-    <h1>Hockey organizations, studied from the inside out.</h1>
-    <p class="support">{description}</p>
+    <p class="kicker">{HOME.kicker}</p>
+    <h1>{HOME.title}</h1>
+    <p class="support">{HOME.description}</p>
   </div>
 
   {rows.length > 0 && (

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Chip from '../components/Chip.astro';
 import Portrait from '../components/Portrait.astro';
+import { ABOUT } from '../lib/site';
 
 const CONTACT_EMAIL = 'matthew@warsportsgroup.com';
 
@@ -26,14 +27,11 @@ const types: { label: string; desc: string; private?: boolean }[] = [
   { label: 'Research', desc: 'Shorter work on evaluation, development, and operational methods, often drawn from scouting or rink work.' },
   { label: 'Private Report', desc: 'Confidential work prepared for a specific organization. Listed as a record of the work, available on request.', private: true },
 ];
-
-const description =
-  'WAR Sports Group publishes long-form research and analysis on hockey operations, written by Matthew Meyer.';
 ---
-<BaseLayout title="About" description={description} nav={{ label: 'Writing', href: '/' }}>
+<BaseLayout title="About" description={ABOUT.description} nav={{ label: 'Writing', href: '/' }} ogImage="/og/about.png">
   <div class="top col">
-    <p class="kicker">About</p>
-    <h1>Research and analysis on how hockey organizations actually work.</h1>
+    <p class="kicker">{ABOUT.kicker}</p>
+    <h1>{ABOUT.title}</h1>
     <p class="lede">WAR Sports Group publishes long-form work on hockey operations: roster construction, front office structure, player development, culture, and the decisions that separate organizations that win from organizations that wait.</p>
     <p>Most hockey writing is produced from the outside, looking in. This is written from inside the day-to-day operation of the sport, by someone who runs a rink, evaluates players, and has to make operational decisions that are graded every week.</p>
   </div>
