@@ -1,0 +1,152 @@
+---
+import type { MarkdownHeading } from 'astro';
+import { toRoman } from '../lib/format';
+
+interface Props {
+  headings: MarkdownHeading[];
+  variant: 'desktop' | 'mobile';
+}
+
+const { headings, variant } = Astro.props;
+---
+{variant === 'desktop' ? (
+  <nav class="toc-desktop" aria-label="Contents">
+    <p class="label">Contents</p>
+    <ol data-toc>
+      {headings.map((h) => (
+        <li><a href={`#${h.slug}`}>{h.text}</a></li>
+      ))}
+    </ol>
+  </nav>
+) : (
+  <details class="toc-mobile">
+    <summary>Contents</summary>
+    <ol>
+      {headings.map((h, i) => (
+        <li><a href={`#${h.slug}`}>{toRoman(i + 1)}. {h.text}</a></li>
+      ))}
+    </ol>
+  </details>
+)}
+
+<style>
+  .toc-desktop {
+    display: none;
+  }
+  @media (min-width: 1080px) {
+    .toc-desktop {
+      display: block;
+      position: sticky;
+      top: 132px;
+      padding-top: 136px;
+    }
+  }
+  .toc-desktop .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 16px;
+    line-height: 1.75;
+  }
+  .toc-desktop ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--hair);
+  }
+  .toc-desktop li {
+    margin: 0;
+  }
+  .toc-desktop a {
+    display: block;
+    padding: 8px 0 8px 16px;
+    margin-left: -1px;
+    border-left: 1px solid transparent;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--faint);
+    text-decoration: none;
+    transition: color .2s, border-color .2s;
+  }
+  .toc-desktop a:hover {
+    color: var(--text);
+  }
+  .toc-desktop a.active {
+    color: var(--text);
+    border-left-color: var(--accent);
+  }
+
+  .toc-mobile {
+    margin: 30px 0 0;
+    border-top: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+  }
+  @media (min-width: 1080px) {
+    .toc-mobile {
+      display: none;
+    }
+  }
+  .toc-mobile summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 15px 0;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .toc-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+  .toc-mobile summary::after {
+    content: "+";
+    color: var(--faint);
+  }
+  .toc-mobile[open] summary::after {
+    content: "\2013";
+  }
+  .toc-mobile ol {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 14px;
+  }
+  .toc-mobile a {
+    display: block;
+    padding: 7px 0;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc-desktop a {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Highlights the section currently being read in the desktop contents.
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc] a');
+  const sections = document.querySelectorAll<HTMLElement>('.prose section.chunk');
+  if (links.length && sections.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const id = entry.target.querySelector('h2')?.id;
+          links.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+        }
+      },
+      { rootMargin: '-20% 0px -70% 0px' },
+    );
+    sections.forEach((s) => io.observe(s));
+  }
+</script>

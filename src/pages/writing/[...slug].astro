@@ -1,0 +1,37 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import Figure from '../../components/Figure.astro';
+import BarChart from '../../components/BarChart.astro';
+import { getWriting, hasPage, isListed, type WritingEntry } from '../../lib/writing';
+import { readingTime } from '../../lib/readingTime';
+
+export const getStaticPaths = (async () => {
+  const all = await getWriting();
+  // Gated pieces get no page. Unlisted pieces get a page but never appear in More work.
+  const readable = all
+    .filter((e) => hasPage(e) && isListed(e))
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+  return all.filter(hasPage).map((entry) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      more: readable.filter((e) => e.id !== entry.id).slice(0, 3),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: WritingEntry;
+  more: WritingEntry[];
+}
+
+const { entry, more } = Astro.props;
+const { Content, headings } = await render(entry);
+const minutes = entry.data.readingTime ?? readingTime(entry.body ?? '');
+---
+<ArticleLayout entry={entry} headings={headings} readingTime={minutes} more={more}>
+  <Content components={{ Figure, BarChart }} />
+</ArticleLayout>

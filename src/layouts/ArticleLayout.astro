@@ -1,0 +1,225 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import AuthorBlock from '../components/AuthorBlock.astro';
+import MoreWork from '../components/MoreWork.astro';
+import type { WritingEntry } from '../lib/writing';
+import { formatMonthYear, formatNumber } from '../lib/format';
+
+interface Props {
+  entry: WritingEntry;
+  headings: MarkdownHeading[];
+  readingTime: number;
+  more: WritingEntry[];
+}
+
+const { entry, headings, readingTime, more } = Astro.props;
+const { title, subtitle, date, number, label, topic, visibility } = entry.data;
+const sections = headings.filter((h) => h.depth === 2);
+const showToc = sections.length >= 2;
+---
+<BaseLayout title={title} description={subtitle} noindex={visibility === 'unlisted'}>
+  <ProgressBar />
+  <div class="grid">
+    <aside>
+      {showToc && <TableOfContents headings={sections} variant="desktop" />}
+    </aside>
+
+    <article>
+      <header class="titleblock">
+        <p class="eyebrow">{label} <span>/ {formatNumber(number)}</span></p>
+        <h1>{title}</h1>
+        <p class="subtitle">{subtitle}</p>
+        <div class="meta">
+          <time datetime={date.toISOString().slice(0, 10)}>{formatMonthYear(date)}</time>
+          <span>{readingTime} min read</span>
+          {topic && <span>{topic}</span>}
+        </div>
+        {showToc && <TableOfContents headings={sections} variant="mobile" />}
+      </header>
+
+      <div class="prose">
+        <slot />
+      </div>
+
+      <AuthorBlock />
+      <MoreWork entries={more} />
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: block;
+  }
+  @media (min-width: 1080px) {
+    .grid {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 64px;
+      align-items: start;
+    }
+  }
+  aside {
+    display: none;
+  }
+  @media (min-width: 1080px) {
+    aside {
+      display: block;
+      align-self: stretch;
+    }
+  }
+  article {
+    max-width: var(--measure);
+    margin: 0 auto;
+  }
+  @media (min-width: 1080px) {
+    article {
+      margin: 0;
+    }
+  }
+
+  .titleblock {
+    padding: 136px 0 0;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 26px;
+  }
+  .eyebrow span {
+    color: var(--faint);
+  }
+  h1 {
+    font-weight: 600;
+    font-size: clamp(34px, 6.4vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -.024em;
+    color: var(--text-strong);
+    margin: 0 0 20px;
+  }
+  .subtitle {
+    font-size: clamp(18px, 3.4vw, 21px);
+    line-height: 1.5;
+    color: var(--muted);
+    font-weight: 300;
+    margin: 0 0 34px;
+    max-width: 52ch;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 18px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    padding: 18px 0;
+    border-top: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+  }
+  .meta > :not(:last-child)::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 9px;
+    background: var(--hair-strong);
+    margin-left: 18px;
+    vertical-align: -1px;
+  }
+</style>
+
+<style is:global>
+  /* Article body. MDX output is unscoped, so every rule is prefixed .prose. */
+  .prose {
+    padding: 46px 0 0;
+    counter-reset: section figure;
+  }
+  .prose p {
+    margin: 0 0 26px;
+  }
+  .prose > p:first-child {
+    font-size: 21px;
+    line-height: 1.66;
+    color: var(--text);
+  }
+  .prose strong {
+    font-weight: 400;
+    color: var(--text);
+  }
+  .prose a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--hair-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color .2s;
+  }
+  .prose a:hover {
+    text-decoration-color: var(--text);
+  }
+  .prose section.chunk {
+    padding: 24px 0 0;
+  }
+  .prose h2 {
+    margin: 56px 0 28px;
+    font-weight: 500;
+    letter-spacing: -.012em;
+    font-size: clamp(23px, 4vw, 29px);
+    line-height: 1.22;
+    color: var(--text-strong);
+    counter-increment: section;
+    scroll-margin-top: 96px;
+  }
+  .prose h2::before {
+    content: "Section " counter(section, upper-roman);
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    line-height: 1.75;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .prose blockquote {
+    margin: 40px 0;
+    padding: 0 0 0 22px;
+    border-left: 1px solid var(--accent);
+    font-size: clamp(20px, 3.6vw, 24px);
+    line-height: 1.42;
+    font-weight: 300;
+    color: var(--text-strong);
+    letter-spacing: -.01em;
+  }
+  .prose blockquote p {
+    margin: 0;
+  }
+  .prose blockquote p + p {
+    margin-top: 16px;
+  }
+  .prose ul,
+  .prose ol {
+    margin: 0 0 26px;
+    padding-left: 1.2em;
+  }
+  .prose li {
+    margin: 0 0 8px;
+  }
+  .prose li::marker {
+    color: var(--faint);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .prose a {
+      transition: none;
+    }
+  }
+</style>

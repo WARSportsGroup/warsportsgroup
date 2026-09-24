@@ -1,0 +1,58 @@
+---
+// Figures are numbered automatically, in order, by a CSS counter on .prose.
+interface Props {
+  title: string;
+  caption?: string;
+}
+
+const { title, caption } = Astro.props;
+---
+<figure class="figure">
+  <p class="fig-title">{title}</p>
+  <slot />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .figure {
+    margin: 48px 0;
+    padding: 26px 22px 20px;
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: var(--radius);
+    counter-increment: figure;
+  }
+  @media (min-width: 1080px) {
+    .figure {
+      margin-left: -40px;
+      margin-right: -40px;
+    }
+  }
+  .fig-title {
+    font-size: 16.5px;
+    color: var(--text);
+    font-weight: 400;
+    line-height: 1.35;
+    margin: 0 0 22px;
+  }
+  .fig-title::before {
+    content: "Figure " counter(figure, decimal-leading-zero);
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--faint);
+    line-height: 1.75;
+    margin-bottom: 6px;
+  }
+  figcaption {
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--faint);
+    border-top: 1px solid var(--hair);
+    padding-top: 14px;
+  }
+</style>

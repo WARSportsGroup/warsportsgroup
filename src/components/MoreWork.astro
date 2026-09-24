@@ -1,0 +1,80 @@
+---
+import type { WritingEntry } from '../lib/writing';
+import { formatNumber } from '../lib/format';
+
+interface Props {
+  entries: WritingEntry[];
+}
+
+const { entries } = Astro.props;
+---
+{entries.length > 0 && (
+  <section class="next" aria-labelledby="more-work-label">
+    <h2 class="label" id="more-work-label">More work</h2>
+    {entries.map((e) => (
+      <a class="nrow" href={`/writing/${e.id}`}>
+        <span class="n">{formatNumber(e.data.number)}</span>
+        <span>
+          <span class="t">{e.data.title}</span>
+          <span class="s">{e.data.subtitle}</span>
+        </span>
+      </a>
+    ))}
+  </section>
+)}
+
+<style>
+  .next {
+    margin: 72px 0 0;
+    border-top: 1px solid var(--hair);
+  }
+  .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--faint);
+    line-height: 1.75;
+    margin: 0;
+    padding: 26px 0 10px;
+  }
+  .nrow {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-top: 1px solid var(--hair);
+    text-decoration: none;
+  }
+  .n {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: .1em;
+  }
+  .t {
+    display: block;
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.35;
+    font-weight: 400;
+    transition: color .2s;
+  }
+  .s {
+    display: block;
+    font-size: 14.5px;
+    color: var(--faint);
+    line-height: 1.4;
+    margin-top: 5px;
+  }
+  .nrow:hover .t {
+    color: var(--text-max);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .t {
+      transition: none;
+    }
+  }
+</style>

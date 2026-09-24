@@ -44,3 +44,30 @@ a {
   margin: 0 auto;
   padding: 0 var(--gutter);
 }
+
+/* Fade up on entry. Only hidden once JS is known to be running. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media print {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
