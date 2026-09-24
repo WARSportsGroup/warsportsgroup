@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Drop a photo at src/assets/portrait.(jpg|jpeg|png|webp) and it replaces the
+// placeholder. The CSS filter desaturates whatever is supplied.
+const found = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait.{jpg,jpeg,png,webp}', {
+  eager: true,
+});
+const photo = Object.values(found)[0]?.default;
+---
+<div class="portrait">
+  {photo ? (
+    <Image src={photo} alt="Matthew Meyer" width={344} height={344} fit="cover" class="photo" />
+  ) : (
+    <span class="ph">Portrait<br />1:1 &middot; Desaturated</span>
+  )}
+  <span class="grid-lines" aria-hidden="true"></span>
+</div>
+
+<style>
+  .portrait {
+    position: relative;
+    width: 172px;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--hair-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 26px;
+    filter: grayscale(1) contrast(1.05) brightness(.95);
+  }
+  @media (min-width: 760px) {
+    .portrait {
+      margin-bottom: 0;
+    }
+  }
+  .portrait::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--accent-wash), transparent 60%);
+  }
+  .photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ph {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--faint);
+    text-align: center;
+    line-height: 1.7;
+  }
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    opacity: .5;
+  }
+  .grid-lines::before,
+  .grid-lines::after {
+    content: "";
+    position: absolute;
+    background: var(--hair);
+  }
+  .grid-lines::before {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+  .grid-lines::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+</style>

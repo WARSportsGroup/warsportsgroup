@@ -32,6 +32,7 @@
   --track:         rgba(255,255,255,.04);   /* bar chart track */
   --fill:          rgba(255,255,255,.14);   /* bar chart default fill */
   --row-tint:      rgba(255,255,255,.017);  /* index row hover, desktop */
+  --accent-wash:   rgba(224,155,61,.05);    /* portrait gradient overlay */
 }
 
 /* Self-hosted, latin subset, variable weight. Same files the prototypes loaded. */

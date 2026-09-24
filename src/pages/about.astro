@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Chip from '../components/Chip.astro';
+import Portrait from '../components/Portrait.astro';
+
+const CONTACT_EMAIL = 'matthew@warsportsgroup.com';
+
+// Only links with a URL render. Add URLs here to show the Elsewhere row.
+const elsewhere: { label: string; href: string }[] = [
+  { label: 'RWDH', href: '' },
+  { label: 'LinkedIn', href: '' },
+  { label: 'X', href: '' },
+].filter((l) => l.href);
+
+const background = [
+  ['Current role', 'Director of Hockey Operations, four-sheet facility, Metro Detroit'],
+  ['Scouting', 'Regional scout, junior hockey. Territory: Michigan 16U/18U AAA and high school'],
+  ['Education', 'MA, Athletic Administration · BA, Business Management'],
+  ['Certification', 'USA Hockey Level 4'],
+  ['Focus areas', 'Hockey operations, roster construction, organizational culture, player development, amateur evaluation'],
+];
+
+const types: { label: string; desc: string; private?: boolean }[] = [
+  { label: 'Essay', desc: 'Argument-driven pieces on a specific organizational question, usually 2,000 to 5,000 words.' },
+  { label: 'Organizational Study', desc: 'Full examinations of a franchise or department, structured in sections, with supporting data.' },
+  { label: 'Research', desc: 'Shorter work on evaluation, development, and operational methods, often drawn from scouting or rink work.' },
+  { label: 'Private Report', desc: 'Confidential work prepared for a specific organization. Listed as a record of the work, available on request.', private: true },
+];
+
+const description =
+  'WAR Sports Group publishes long-form research and analysis on hockey operations, written by Matthew Meyer.';
+---
+<BaseLayout title="About" description={description} nav={{ label: 'Writing', href: '/' }}>
+  <div class="top col">
+    <p class="kicker">About</p>
+    <h1>Research and analysis on how hockey organizations actually work.</h1>
+    <p class="lede">WAR Sports Group publishes long-form work on hockey operations: roster construction, front office structure, player development, culture, and the decisions that separate organizations that win from organizations that wait.</p>
+    <p>Most hockey writing is produced from the outside, looking in. This is written from inside the day-to-day operation of the sport, by someone who runs a rink, evaluates players, and has to make operational decisions that are graded every week.</p>
+  </div>
+
+  <section class="block col reveal" aria-labelledby="who">
+    <h2 id="who">Who writes this</h2>
+    <div class="bio">
+      <Portrait />
+      <div>
+        <p class="bio-name">Matthew Meyer</p>
+        <p class="bio-role">Founder, WAR Sports Group</p>
+        <p>I am the Director of Hockey Operations at a four-sheet facility in Metro Detroit, and I scout Michigan 16U and 18U AAA and high school hockey as a regional scout at the junior level. The work here comes out of both jobs: one teaches you what it takes to actually run a hockey operation on a schedule, with real people, real ice, and real money, and the other teaches you how thin the margin is between a player who makes it and a player who does not.</p>
+        <p>I write about organizations because that is the layer where most hockey conversations stop short. Rosters get debated endlessly. Structure, accountability, and the systems behind the roster rarely do. My long-term goal is hockey operations work at the team level, and this site is the visible portion of that work.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block col reveal" aria-labelledby="background">
+    <h2 id="background">Background</h2>
+    <table class="spec">
+      <tbody>
+        {background.map(([k, v]) => (
+          <tr><th scope="row">{k}</th><td>{v}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block col reveal" aria-labelledby="types">
+    <h2 id="types">What gets published here</h2>
+    <div class="types">
+      {types.map((t) => (
+        <div class="trow">
+          <span><Chip variant={t.private ? 'private' : 'default'}>{t.label}</Chip></span>
+          <span class="tdesc">{t.desc}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="block col reveal" aria-labelledby="progress">
+    <h2 id="progress">Also in progress</h2>
+    <div class="soon">
+      <div class="soon-top">
+        <Chip>Fiction</Chip>
+        <span class="soon-status">Expected late 2026</span>
+      </div>
+      <p class="soon-title">Erie</p>
+      <p class="soon-copy">A literary novel following a thirty-year-old first-year head coach through a junior season that does not go the way he planned. It is about non-linear growth, backsliding, and what accountability actually costs a person.</p>
+    </div>
+  </section>
+
+  <section class="block col reveal" id="contact" aria-labelledby="contact-label">
+    <h2 id="contact-label">Contact</h2>
+    <p class="contact-line">Open to conversations about hockey operations roles, private organizational reports, scouting work, and anything published here.</p>
+    <a class="mailto" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    {elsewhere.length > 0 && (
+      <nav class="elsewhere" aria-label="Elsewhere">
+        {elsewhere.map((l) => <a href={l.href} rel="me">{l.label}</a>)}
+      </nav>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .col {
+    max-width: var(--measure);
+  }
+  .top {
+    padding: 150px 0 0;
+  }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 26px;
+  }
+  h1 {
+    font-weight: 500;
+    letter-spacing: -.024em;
+    color: var(--text-strong);
+    margin: 0 0 28px;
+    font-size: clamp(31px, 6vw, 46px);
+    line-height: 1.12;
+  }
+  p {
+    margin: 0 0 26px;
+  }
+  .lede {
+    font-size: clamp(19px, 2.6vw, 21px);
+    line-height: 1.62;
+    color: var(--text);
+    margin: 0 0 30px;
+  }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 22px;
+    padding-top: 26px;
+    border-top: 1px solid var(--hair);
+  }
+  .block {
+    margin-top: 64px;
+  }
+  #contact {
+    scroll-margin-top: 96px;
+  }
+
+  .bio {
+    display: block;
+  }
+  @media (min-width: 760px) {
+    .bio {
+      display: grid;
+      grid-template-columns: 172px minmax(0, 1fr);
+      gap: 38px;
+      align-items: start;
+    }
+  }
+  .bio-name {
+    font-size: 23px;
+    color: var(--text-strong);
+    font-weight: 500;
+    letter-spacing: -.014em;
+    margin: 0 0 4px;
+  }
+  .bio-role {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 22px;
+  }
+
+  .spec {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .spec th,
+  .spec td {
+    text-align: left;
+    vertical-align: top;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .spec th {
+    width: 38%;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--faint);
+    padding-right: 20px;
+  }
+  .spec td {
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .spec tr:first-child th,
+  .spec tr:first-child td {
+    border-top: 1px solid var(--hair);
+  }
+
+  .trow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  @media (min-width: 640px) {
+    .trow {
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 24px;
+      align-items: baseline;
+    }
+  }
+  .tdesc {
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .soon {
+    border: 1px solid var(--hair);
+    border-left: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 22px 24px 24px;
+  }
+  .soon-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .soon-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .soon-title {
+    font-size: 25px;
+    color: var(--text-strong);
+    font-weight: 500;
+    letter-spacing: -.018em;
+    margin: 0 0 10px;
+    font-style: italic;
+  }
+  .soon-copy {
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .contact-line {
+    font-size: 18px;
+    color: var(--text);
+    margin: 0 0 20px;
+    max-width: 56ch;
+  }
+  .mailto {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: .1em;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-line);
+    padding-bottom: 3px;
+    overflow-wrap: anywhere;
+  }
+  .elsewhere {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: 30px;
+  }
+  .elsewhere a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .elsewhere a:hover {
+    color: var(--text);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .elsewhere a {
+      transition: none;
+    }
+  }
+</style>
