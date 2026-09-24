@@ -1,10 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getWriting } from '../lib/writing';
+import IndexRow from '../components/IndexRow.astro';
+import { getWriting, isListed } from '../lib/writing';
 
-// Placeholder until M3. Loading the collection here runs the schema and the
-// duplicate number check on every build, even before the index exists.
-await getWriting();
+// Featured first, then newest first. Unlisted pieces never appear.
+const rows = (await getWriting())
+  .filter(isListed)
+  .sort(
+    (a, b) =>
+      Number(b.data.featured) - Number(a.data.featured) ||
+      b.data.date.getTime() - a.data.date.getTime() ||
+      b.data.number - a.data.number,
+  );
+const latestYear = Math.max(...rows.map((e) => e.data.date.getUTCFullYear()));
 
 const description =
   'Long-form research and operational analysis on how teams are actually built, run, and held accountable. Written by Matthew Meyer.';
@@ -13,8 +21,20 @@ const description =
   <div class="statement">
     <p class="kicker">Work. Achieve. Repeat.</p>
     <h1>Hockey organizations, studied from the inside out.</h1>
-    <p>{description}</p>
+    <p class="support">{description}</p>
   </div>
+
+  {rows.length > 0 && (
+    <section aria-labelledby="index-label">
+      <div class="idx-head">
+        <h2 id="index-label">Selected work</h2>
+        <span>{latestYear}</span>
+      </div>
+      <ol class="rows">
+        {rows.map((entry) => <IndexRow entry={entry} />)}
+      </ol>
+    </section>
+  )}
 </BaseLayout>
 
 <style>
@@ -44,11 +64,32 @@ const description =
     font-size: clamp(33px, 7.2vw, 58px);
     line-height: 1.1;
   }
-  .statement p:not(.kicker) {
+  .support {
     font-size: clamp(17px, 2.4vw, 19.5px);
     line-height: 1.6;
     color: var(--muted);
     margin: 0;
     max-width: 44ch;
+  }
+
+  .idx-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--faint);
+    padding-bottom: 14px;
+  }
+  .idx-head h2 {
+    font: inherit;
+    margin: 0;
+  }
+  .rows {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--hair-strong);
   }
 </style>

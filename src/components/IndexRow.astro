@@ -1,0 +1,133 @@
+---
+import Chip from './Chip.astro';
+import type { WritingEntry } from '../lib/writing';
+import { formatMonthYear, formatNumber } from '../lib/format';
+
+interface Props {
+  entry: WritingEntry;
+}
+
+const { entry } = Astro.props;
+const { title, subtitle, date, number, label, origin, featured, visibility } = entry.data;
+const gated = visibility === 'gated';
+// Gated pieces are listed as evidence of work but are not readable, so the row is not a link.
+const Tag = gated ? 'div' : 'a';
+---
+<li class="reveal">
+  <Tag class:list={['row', { feat: featured, link: !gated }]} href={gated ? undefined : `/writing/${entry.id}`}>
+    <span class="num">{formatNumber(number)}</span>
+    <span class="body">
+      <Chip class="chip" variant={gated ? 'private' : 'default'}>{label}</Chip>
+      <h3 class="t">{title}</h3>
+      <span class="s">{subtitle}</span>
+      {origin && <span class="origin">{origin}</span>}
+      {gated && <span class="origin">Available on request</span>}
+    </span>
+    <time class="d" datetime={date.toISOString().slice(0, 10)}>{formatMonthYear(date, 'short')}</time>
+  </Tag>
+</li>
+
+<style>
+  li {
+    list-style: none;
+    border-bottom: 1px solid var(--hair);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 26px 0;
+    text-decoration: none;
+    transition: background .25s ease;
+  }
+  @media (min-width: 860px) {
+    .row {
+      grid-template-columns: 62px minmax(0, 1fr) 128px;
+      gap: 26px;
+      align-items: baseline;
+      padding: 30px 0;
+    }
+    .link:hover {
+      background: var(--row-tint);
+    }
+  }
+  .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--faint);
+    transition: color .2s;
+  }
+  .link:hover .num {
+    color: var(--accent);
+  }
+  .body {
+    display: block;
+  }
+  .body :global(.chip) {
+    margin: 12px 0 12px;
+  }
+  @media (min-width: 860px) {
+    .body :global(.chip) {
+      margin-top: 0;
+    }
+  }
+  .t {
+    display: block;
+    margin: 0;
+    font-size: clamp(21px, 3.4vw, 26px);
+    line-height: 1.25;
+    color: var(--text-strong);
+    font-weight: 400;
+    letter-spacing: -.014em;
+    transition: color .2s;
+  }
+  .link:hover .t {
+    color: var(--text-max);
+  }
+  .feat .t {
+    font-size: clamp(25px, 4.6vw, 34px);
+    line-height: 1.16;
+    letter-spacing: -.02em;
+  }
+  .s {
+    display: block;
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 9px;
+    max-width: 56ch;
+  }
+  .origin {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-top: 10px;
+  }
+  .d {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-top: 14px;
+  }
+  @media (min-width: 860px) {
+    .d {
+      margin-top: 0;
+      text-align: right;
+    }
+    .num {
+      padding-top: 4px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .row,
+    .num,
+    .t {
+      transition: none;
+    }
+  }
+</style>
