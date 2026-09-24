@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — WAR Sports Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0B0D;--surface:#14161A;
+    --text:#E4E6E9;--text-body:rgba(228,230,233,.90);
+    --muted:#8B9299;--faint:#5E656B;
+    --hair:rgba(255,255,255,.08);--hair-strong:rgba(255,255,255,.16);
+    --accent:#E09B3D;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text-body);font-family:var(--sans);font-weight:300;font-size:19.5px;line-height:1.75;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv05"}
+  ::selection{background:rgba(224,155,61,.25);color:#fff}
+
+  header.site{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair)}
+  .bar{max-width:1180px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+  .wordmark{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
+  .mark{width:15px;height:15px;position:relative;flex:0 0 auto}
+  .mark:before,.mark:after{content:"";position:absolute;background:var(--faint)}
+  .mark:before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-.5px)}
+  .mark:after{top:50%;left:0;right:0;height:1px;transform:translateY(-.5px)}
+  .mark span{position:absolute;inset:3.5px;border:1px solid var(--accent);border-radius:50%}
+  .wm-text{font-family:var(--mono);font-size:11.5px;letter-spacing:.20em;text-transform:uppercase}
+  .wm-text b{font-weight:500}.wm-text i{font-style:normal;color:var(--faint)}
+  .nav a{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav a:hover{color:var(--text)}
+
+  .shell{max-width:1180px;margin:0 auto;padding:0 24px}
+  .col{max-width:64ch}
+
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 26px}
+  h1{font-weight:500;letter-spacing:-.024em;color:#F2F4F6;margin:0 0 28px;font-size:clamp(31px,6vw,46px);line-height:1.12}
+  .top{padding:150px 0 0}
+  .lede{font-size:clamp(19px,2.6vw,21px);line-height:1.62;color:var(--text);margin:0 0 30px}
+  p{margin:0 0 26px}
+
+  h2{
+    font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--faint);margin:0 0 22px;padding-top:26px;border-top:1px solid var(--hair);
+  }
+  .block{margin-top:64px}
+
+  /* portrait + bio */
+  .bio{display:block}
+  @media(min-width:760px){
+    .bio{display:grid;grid-template-columns:172px minmax(0,1fr);gap:38px;align-items:start}
+  }
+  .portrait{
+    position:relative;width:172px;max-width:100%;aspect-ratio:1/1;
+    border:1px solid var(--hair-strong);border-radius:3px;background:var(--surface);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:26px;
+    filter:grayscale(1) contrast(1.05) brightness(.95);
+  }
+  @media(min-width:760px){.portrait{margin-bottom:0}}
+  .portrait:after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(160deg,rgba(224,155,61,.05),transparent 60%);
+  }
+  .portrait .ph{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);text-align:center;line-height:1.7}
+  .portrait .grid-lines{position:absolute;inset:0;opacity:.5}
+  .portrait .grid-lines:before,.portrait .grid-lines:after{content:"";position:absolute;background:var(--hair)}
+  .portrait .grid-lines:before{left:50%;top:0;bottom:0;width:1px}
+  .portrait .grid-lines:after{top:50%;left:0;right:0;height:1px}
+  .bio-name{font-size:23px;color:#F2F4F6;font-weight:500;letter-spacing:-.014em;margin:0 0 4px}
+  .bio-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 22px}
+
+  /* spec table */
+  table.spec{width:100%;border-collapse:collapse;max-width:64ch}
+  table.spec th,table.spec td{text-align:left;vertical-align:top;padding:15px 0;border-bottom:1px solid var(--hair)}
+  table.spec th{
+    width:38%;font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--faint);padding-right:20px;
+  }
+  table.spec td{font-size:16.5px;line-height:1.5;color:var(--text)}
+  table.spec tr:first-child th,table.spec tr:first-child td{border-top:1px solid var(--hair)}
+
+  /* publication types */
+  .types{max-width:64ch}
+  .trow{display:grid;grid-template-columns:1fr;gap:6px;padding:18px 0;border-bottom:1px solid var(--hair)}
+  @media(min-width:640px){.trow{grid-template-columns:190px minmax(0,1fr);gap:24px;align-items:baseline}}
+  .chip{
+    display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--hair-strong);border-radius:2px;padding:3px 7px;
+  }
+  .tdesc{font-size:16.5px;line-height:1.5;color:var(--muted)}
+
+  /* coming soon */
+  .soon{
+    border:1px solid var(--hair);border-left:1px solid var(--accent);border-radius:3px;
+    background:var(--surface);padding:22px 24px 24px;max-width:64ch;
+  }
+  .soon-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:16px}
+  .soon-status{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+  .soon-title{font-size:25px;color:#F2F4F6;font-weight:500;letter-spacing:-.018em;margin:0 0 10px;font-style:italic}
+  .soon-copy{font-size:16.5px;line-height:1.55;color:var(--muted);margin:0}
+
+  /* contact */
+  .contact-line{font-size:18px;color:var(--text);margin:0 0 20px;max-width:56ch}
+  a.mailto{
+    font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:var(--accent);text-decoration:none;
+    border-bottom:1px solid rgba(224,155,61,.35);padding-bottom:3px;
+  }
+  .elsewhere{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:30px}
+  .elsewhere a{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    text-decoration:none;transition:color .2s;
+  }
+  .elsewhere a:hover{color:var(--text)}
+
+  footer.site{margin-top:96px;border-top:1px solid var(--hair);padding:30px 0 64px}
+  .fin{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .fin a{text-decoration:none;color:var(--faint)}
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="bar">
+    <a class="wordmark" href="#"><span class="mark"><span></span></span><span class="wm-text"><b>WAR</b> <i>Sports Group</i></span></a>
+    <nav class="nav"><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main class="shell">
+
+  <div class="top col">
+    <p class="kicker">About</p>
+    <h1>Research and analysis on how hockey organizations actually work.</h1>
+    <p class="lede">WAR Sports Group publishes long-form work on hockey operations: roster construction, front office structure, player development, culture, and the decisions that separate organizations that win from organizations that wait.</p>
+    <p>Most hockey writing is produced from the outside, looking in. This is written from inside the day-to-day operation of the sport, by someone who runs a rink, evaluates players, and has to make operational decisions that are graded every week.</p>
+  </div>
+
+  <div class="block col reveal">
+    <h2>Who writes this</h2>
+    <div class="bio">
+      <div class="portrait">
+        <div class="grid-lines"></div>
+        <div class="ph">Portrait<br>1:1 &middot; Desaturated</div>
+      </div>
+      <div>
+        <p class="bio-name">Matthew Meyer</p>
+        <p class="bio-role">Founder, WAR Sports Group</p>
+        <p>I am the Director of Hockey Operations at a four-sheet facility in Metro Detroit, and I scout Michigan 16U and 18U AAA and high school hockey as a regional scout at the junior level. The work here comes out of both jobs: one teaches you what it takes to actually run a hockey operation on a schedule, with real people, real ice, and real money, and the other teaches you how thin the margin is between a player who makes it and a player who does not.</p>
+        <p>I write about organizations because that is the layer where most hockey conversations stop short. Rosters get debated endlessly. Structure, accountability, and the systems behind the roster rarely do. My long-term goal is hockey operations work at the team level, and this site is the visible portion of that work.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block reveal">
+    <h2>Background</h2>
+    <table class="spec">
+      <tr><th>Current role</th><td>Director of Hockey Operations, four-sheet facility, Metro Detroit</td></tr>
+      <tr><th>Scouting</th><td>Regional scout, junior hockey. Territory: Michigan 16U/18U AAA and high school</td></tr>
+      <tr><th>Education</th><td>MA, Athletic Administration &middot; BA, Business Management</td></tr>
+      <tr><th>Certification</th><td>USA Hockey Level 4</td></tr>
+      <tr><th>Focus areas</th><td>Hockey operations, roster construction, organizational culture, player development, amateur evaluation</td></tr>
+    </table>
+  </div>
+
+  <div class="block reveal">
+    <h2>What gets published here</h2>
+    <div class="types">
+      <div class="trow">
+        <span><span class="chip">Essay</span></span>
+        <span class="tdesc">Argument-driven pieces on a specific organizational question, usually 2,000 to 5,000 words.</span>
+      </div>
+      <div class="trow">
+        <span><span class="chip">Organizational Study</span></span>
+        <span class="tdesc">Full examinations of a franchise or department, structured in sections, with supporting data.</span>
+      </div>
+      <div class="trow">
+        <span><span class="chip">Research</span></span>
+        <span class="tdesc">Shorter work on evaluation, development, and operational methods, often drawn from scouting or rink work.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block col reveal">
+    <h2>Also in progress</h2>
+    <div class="soon">
+      <div class="soon-top">
+        <span class="chip">Fiction</span>
+        <span class="soon-status">Expected late 2026</span>
+      </div>
+      <p class="soon-title">Erie</p>
+      <p class="soon-copy">A literary novel following a thirty-year-old first-year head coach through a junior season that does not go the way he planned. It is about non-linear growth, backsliding, and what accountability actually costs a person.</p>
+    </div>
+  </div>
+
+  <div class="block col reveal">
+    <h2>Contact</h2>
+    <p class="contact-line">Open to conversations about hockey operations roles, private organizational reports, scouting work, and anything published here.</p>
+    <a class="mailto" href="#">matthew@warsportsgroup.com</a>
+    <div class="elsewhere">
+      <a href="#">RWDH</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">X</a>
+    </div>
+  </div>
+
+  <footer class="site">
+    <div class="fin">
+      <span>WAR Sports Group</span>
+      <span><a href="#">Writing</a></span>
+      <span>&copy; 2026</span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var r=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+    r.forEach(function(x){o.observe(x);});
+  } else { r.forEach(function(x){x.classList.add('in');}); }
+})();
+</script>
+</body>
+</html>

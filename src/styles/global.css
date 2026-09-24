@@ -1,0 +1,46 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-body);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 19.5px;
+  line-height: 1.75;
+  letter-spacing: .001em;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv05";
+}
+
+::selection {
+  background: var(--accent-select);
+  color: var(--text-max);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.shell {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}

@@ -1,0 +1,50 @@
+---
+import type { NavLink } from './SiteHeader.astro';
+
+interface Props {
+  nav: NavLink;
+}
+
+const { nav } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="shell">
+  <div class="fin">
+    <span>WAR Sports Group</span>
+    <span><a href={nav.href}>{nav.label}</a></span>
+    <span><a href="/about#contact">Contact</a></span>
+    <span>&copy; {year}</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin-top: 96px;
+  }
+  .fin {
+    border-top: 1px solid var(--hair);
+    padding: 30px 0 64px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .fin a {
+    text-decoration: none;
+    color: var(--faint);
+    transition: color .2s;
+  }
+  .fin a:hover {
+    color: var(--text);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fin a {
+      transition: none;
+    }
+  }
+</style>

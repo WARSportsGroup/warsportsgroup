@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getWriting } from '../lib/writing';
+
+// Placeholder until M3. Loading the collection here runs the schema and the
+// duplicate number check on every build, even before the index exists.
+await getWriting();
+
+const description =
+  'Long-form research and operational analysis on how teams are actually built, run, and held accountable. Written by Matthew Meyer.';
+---
+<BaseLayout description={description}>
+  <div class="statement">
+    <p class="kicker">Work. Achieve. Repeat.</p>
+    <h1>Hockey organizations, studied from the inside out.</h1>
+    <p>{description}</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .statement {
+    padding: 172px 0 108px;
+    max-width: 26ch;
+  }
+  @media (min-width: 760px) {
+    .statement {
+      padding: 216px 0 132px;
+      max-width: 30ch;
+    }
+  }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 30px;
+  }
+  h1 {
+    font-weight: 500;
+    letter-spacing: -.026em;
+    color: var(--text-strong);
+    margin: 0 0 28px;
+    font-size: clamp(33px, 7.2vw, 58px);
+    line-height: 1.1;
+  }
+  .statement p:not(.kicker) {
+    font-size: clamp(17px, 2.4vw, 19.5px);
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+    max-width: 44ch;
+  }
+</style>

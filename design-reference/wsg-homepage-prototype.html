@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WAR Sports Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0B0D;--surface:#14161A;
+    --text:#E4E6E9;--text-body:rgba(228,230,233,.90);
+    --muted:#8B9299;--faint:#5E656B;
+    --hair:rgba(255,255,255,.08);--hair-strong:rgba(255,255,255,.16);
+    --accent:#E09B3D;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--text-body);
+    font-family:var(--sans);font-weight:300;font-size:19.5px;line-height:1.75;
+    -webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv05";
+  }
+  ::selection{background:rgba(224,155,61,.25);color:#fff}
+  a{color:inherit}
+
+  header.site{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair)}
+  .bar{max-width:1180px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+  .wordmark{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
+  .mark{width:15px;height:15px;position:relative;flex:0 0 auto}
+  .mark:before,.mark:after{content:"";position:absolute;background:var(--faint)}
+  .mark:before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-.5px)}
+  .mark:after{top:50%;left:0;right:0;height:1px;transform:translateY(-.5px)}
+  .mark span{position:absolute;inset:3.5px;border:1px solid var(--accent);border-radius:50%}
+  .wm-text{font-family:var(--mono);font-size:11.5px;letter-spacing:.20em;text-transform:uppercase}
+  .wm-text b{font-weight:500}.wm-text i{font-style:normal;color:var(--faint)}
+  .nav a{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav a:hover{color:var(--text)}
+
+  .shell{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* statement */
+  .statement{padding:172px 0 108px;max-width:26ch}
+  @media(min-width:760px){.statement{padding:216px 0 132px;max-width:30ch}}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 30px}
+  .statement h1{
+    font-weight:500;letter-spacing:-.026em;color:#F2F4F6;margin:0 0 28px;
+    font-size:clamp(33px,7.2vw,58px);line-height:1.1;
+  }
+  .statement p{font-size:clamp(17px,2.4vw,19.5px);line-height:1.6;color:var(--muted);margin:0;max-width:44ch}
+
+  /* index */
+  .idx-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);
+    padding-bottom:14px;
+  }
+  .rows{border-top:1px solid var(--hair-strong)}
+  .row{
+    display:grid;grid-template-columns:1fr;gap:0;
+    padding:26px 0;border-bottom:1px solid var(--hair);text-decoration:none;
+    transition:background .25s ease;
+  }
+  @media(min-width:860px){
+    .row{grid-template-columns:62px minmax(0,1fr) 128px;gap:26px;align-items:baseline;padding:30px 0}
+    .row:hover{background:rgba(255,255,255,.017)}
+  }
+  .row .num{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--faint);transition:color .2s}
+  .row:hover .num{color:var(--accent)}
+  .row .label{
+    display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--hair-strong);border-radius:2px;padding:3px 7px;margin-bottom:12px;
+  }
+  .row .t{font-size:clamp(21px,3.4vw,26px);line-height:1.25;color:#F2F4F6;font-weight:400;letter-spacing:-.014em;transition:color .2s}
+  .row:hover .t{color:#fff}
+  .row .s{font-size:16.5px;line-height:1.5;color:var(--muted);margin-top:9px;max-width:56ch}
+  .row .d{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:14px}
+  @media(min-width:860px){
+    .row .d{margin-top:0;text-align:right}
+    .row .num{padding-top:4px}
+  }
+  .row.feat .t{font-size:clamp(25px,4.6vw,34px);line-height:1.16;letter-spacing:-.02em}
+  .row .origin{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:10px}
+  .private{border-color:rgba(224,155,61,.35);color:var(--accent)}
+
+  footer.site{margin-top:96px;border-top:1px solid var(--hair);padding:30px 0 64px}
+  .fin{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .fin a{text-decoration:none;color:var(--faint);transition:color .2s}
+  .fin a:hover{color:var(--text)}
+
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="bar">
+    <a class="wordmark" href="#"><span class="mark"><span></span></span><span class="wm-text"><b>WAR</b> <i>Sports Group</i></span></a>
+    <nav class="nav"><a href="#">About</a></nav>
+  </div>
+</header>
+
+<main class="shell">
+
+  <div class="statement">
+    <p class="kicker">Work. Achieve. Repeat.</p>
+    <h1>Hockey organizations, studied from the inside out.</h1>
+    <p>Long-form research and operational analysis on how teams are actually built, run, and held accountable. Written by Matthew Meyer.</p>
+  </div>
+
+  <div class="idx-head">
+    <span>Selected work</span>
+    <span>2026</span>
+  </div>
+
+  <div class="rows">
+
+    <a class="row feat reveal" href="#">
+      <span class="num">001</span>
+      <span>
+        <span class="label">Organizational Study</span>
+        <span class="t">The Pattern Is the Answer</span>
+        <span class="s">Ten years without a playoff game is no longer a roster problem in Detroit. It is a foundation problem.</span>
+      </span>
+      <span class="d">Apr 2026</span>
+    </a>
+
+    <a class="row reveal" href="#">
+      <span class="num">002</span>
+      <span>
+        <span class="label private">Private Report</span>
+        <span class="t">Operating Unlike Any Other Team</span>
+        <span class="s">Learning velocity as a competitive advantage, and nine places inside an organization to build it.</span>
+        <span class="origin">Available on request</span>
+      </span>
+      <span class="d">Mar 2026</span>
+    </a>
+
+    <a class="row reveal" href="#">
+      <span class="num">003</span>
+      <span>
+        <span class="label">Essay</span>
+        <span class="t">The Blueprint: Detroit's Next Hockey Ops Regime</span>
+        <span class="s">A first-season plan for an incoming president of hockey operations, from staff structure to the first trade deadline.</span>
+        <span class="origin">Originally published at RWDH</span>
+      </span>
+      <span class="d">Feb 2026</span>
+    </a>
+
+    <a class="row reveal" href="#">
+      <span class="num">004</span>
+      <span>
+        <span class="label">Essay</span>
+        <span class="t">Reading the Room: The Larkin Trade Request Saga</span>
+        <span class="s">What a captain's public frustration reveals about the organization holding the pen.</span>
+        <span class="origin">Originally published at RWDH</span>
+      </span>
+      <span class="d">Jan 2026</span>
+    </a>
+
+    <a class="row reveal" href="#">
+      <span class="num">005</span>
+      <span>
+        <span class="label">Research</span>
+        <span class="t">What Junior Scouting Actually Measures</span>
+        <span class="s">Notes from a season covering Michigan 16U and 18U AAA, and why projection models miss the players who matter.</span>
+      </span>
+      <span class="d">Dec 2025</span>
+    </a>
+
+  </div>
+
+  <footer class="site">
+    <div class="fin">
+      <span>WAR Sports Group</span>
+      <span><a href="#">About</a></span>
+      <span><a href="#">Contact</a></span>
+      <span>&copy; 2026</span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var r=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var o=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target);}});
+    },{rootMargin:'0px 0px -8% 0px'});
+    r.forEach(function(x){o.observe(x);});
+  } else { r.forEach(function(x){x.classList.add('in');}); }
+})();
+</script>
+</body>
+</html>

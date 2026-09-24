@@ -1,0 +1,54 @@
+/* Section 6 of SPEC.md, verbatim. Dark only. */
+:root {
+  /* color */
+  --bg:            #0A0B0D;   /* never pure black */
+  --surface:       #14161A;
+  --text:          #E4E6E9;
+  --text-body:     rgba(228,230,233,.90);
+  --muted:         #8B9299;
+  --faint:         #5E656B;
+  --hair:          rgba(255,255,255,.08);
+  --hair-strong:   rgba(255,255,255,.16);
+  --accent:        #E09B3D;
+
+  /* type */
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* layout */
+  --measure:  64ch;
+  --shell:    1180px;
+  --gutter:   24px;
+  --radius:   3px;
+}
+
+/* Derived from the approved prototypes. Not in SPEC.md section 6. */
+:root {
+  --text-strong:   #F2F4F6;                 /* headings, titles */
+  --text-max:      #FFFFFF;                 /* hover on titles, selected text */
+  --header-bg:     rgba(10,11,13,.82);      /* --bg at 82% under the blurred header */
+  --accent-line:   rgba(224,155,61,.35);    /* private chip border, link underlines */
+  --accent-select: rgba(224,155,61,.25);    /* text selection */
+  --track:         rgba(255,255,255,.04);   /* bar chart track */
+  --fill:          rgba(255,255,255,.14);   /* bar chart default fill */
+  --row-tint:      rgba(255,255,255,.017);  /* index row hover, desktop */
+}
+
+/* Self-hosted, latin subset, variable weight. Same files the prototypes loaded. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
