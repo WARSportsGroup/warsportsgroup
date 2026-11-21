@@ -15,7 +15,11 @@ const writing = defineCollection({
       subtitle: z.string().min(1),
       date: z.coerce.date(),
       number: z.number().int().positive(),
-      label: z.enum(LABELS),
+      // One label, or up to two for a piece that is both (e.g. a study that is also research).
+      label: z
+        .union([z.enum(LABELS), z.array(z.enum(LABELS)).min(1).max(2)])
+        .transform((v) => (Array.isArray(v) ? v : [v]))
+        .refine((v) => new Set(v).size === v.length, 'labels must not repeat'),
       visibility: z.enum(VISIBILITY),
       origin: z.string().min(1).optional(),
       featured: z.boolean().default(false),
@@ -24,7 +28,7 @@ const writing = defineCollection({
       // Off for pieces that carry their own part numbering in the headings.
       sectionNumbers: z.boolean().default(true),
     })
-    .refine((d) => (d.label === 'Private Report') === (d.visibility === 'gated'), {
+    .refine((d) => d.label.includes('Private Report') === (d.visibility === 'gated'), {
       message: 'label "Private Report" and visibility "gated" must be used together',
       path: ['visibility'],
     }),

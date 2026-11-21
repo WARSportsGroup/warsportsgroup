@@ -1,7 +1,7 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { renderCard, type Card } from '../../lib/og';
 import { getWriting, hasPage } from '../../lib/writing';
-import { formatNumber } from '../../lib/format';
+import { formatLabels, formatNumber } from '../../lib/format';
 import { ABOUT, HOME } from '../../lib/site';
 
 // One share card per page: /og/home.png, /og/about.png, /og/writing/<slug>.png
@@ -9,7 +9,7 @@ export const getStaticPaths = (async () => {
   const articles = (await getWriting()).filter(hasPage).map((e) => ({
     params: { slug: `writing/${e.id}` },
     props: {
-      eyebrow: `${e.data.label} / ${formatNumber(e.data.number)}`,
+      eyebrow: `${formatLabels(e.data.label)} / ${formatNumber(e.data.number)}`,
       title: e.data.title,
       subtitle: e.data.subtitle,
     } satisfies Card,

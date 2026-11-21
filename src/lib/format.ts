@@ -1,3 +1,8 @@
+// Labels as shown in eyebrows and share cards, e.g. "Organizational Study · Research".
+export function formatLabels(labels: readonly string[]): string {
+  return labels.join(' · ');
+}
+
 // Display number, e.g. 1 renders as 001.
 export function formatNumber(n: number): string {
   return String(n).padStart(3, '0');

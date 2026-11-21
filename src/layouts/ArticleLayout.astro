@@ -6,7 +6,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import AuthorBlock from '../components/AuthorBlock.astro';
 import MoreWork from '../components/MoreWork.astro';
 import type { WritingEntry } from '../lib/writing';
-import { formatMonthYear, formatNumber } from '../lib/format';
+import { formatLabels, formatMonthYear, formatNumber } from '../lib/format';
 
 interface Props {
   entry: WritingEntry;
@@ -35,7 +35,7 @@ const showToc = sections.length >= 2;
 
     <article>
       <header class="titleblock">
-        <p class="eyebrow">{label} <span>/ {formatNumber(number)}</span></p>
+        <p class="eyebrow">{formatLabels(label)} <span>/ {formatNumber(number)}</span></p>
         <h1>{title}</h1>
         <p class="subtitle">{subtitle}</p>
         <div class="meta">

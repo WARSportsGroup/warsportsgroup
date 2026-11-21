@@ -17,7 +17,9 @@ const Tag = gated ? 'div' : 'a';
   <Tag class:list={['row', { feat: featured, link: !gated }]} href={gated ? undefined : `/writing/${entry.id}`}>
     <span class="num">{formatNumber(number)}</span>
     <span class="body">
-      <Chip class="chip" variant={gated ? 'private' : 'default'}>{label}</Chip>
+      <span class="chips">
+        {label.map((l) => <Chip variant={gated ? 'private' : 'default'}>{l}</Chip>)}
+      </span>
       <h3 class="t">{title}</h3>
       <span class="s">{subtitle}</span>
       {origin && <span class="origin">{origin}</span>}
@@ -63,11 +65,14 @@ const Tag = gated ? 'div' : 'a';
   .body {
     display: block;
   }
-  .body :global(.chip) {
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin: 12px 0 12px;
   }
   @media (min-width: 860px) {
-    .body :global(.chip) {
+    .chips {
       margin-top: 0;
     }
   }
