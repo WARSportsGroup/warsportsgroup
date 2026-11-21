@@ -6,11 +6,11 @@ import { ABOUT } from '../lib/site';
 
 const CONTACT_EMAIL = 'matthew@warsportsgroup.com';
 
-// Only links with a URL render. Add URLs here to show the Elsewhere row.
-const elsewhere: { label: string; href: string }[] = [
-  { label: 'RWDH', href: '' },
-  { label: 'LinkedIn', href: '' },
-  { label: 'X', href: '' },
+// Only links with a URL render. `me` marks profiles that belong to Matthew.
+const elsewhere: { label: string; href: string; me?: boolean }[] = [
+  { label: 'RWDH', href: 'https://x.com/RedWingDiehards' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/matthewmeyerhockey', me: true },
+  { label: 'X', href: 'https://x.com/MatthewMeyer_', me: true },
 ].filter((l) => l.href);
 
 const background = [
@@ -90,7 +90,7 @@ const types: { label: string; desc: string; private?: boolean }[] = [
     <a class="mailto" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
     {elsewhere.length > 0 && (
       <nav class="elsewhere" aria-label="Elsewhere">
-        {elsewhere.map((l) => <a href={l.href} rel="me">{l.label}</a>)}
+        {elsewhere.map((l) => <a href={l.href} rel={l.me ? 'me' : undefined}>{l.label}</a>)}
       </nav>
     )}
   </section>
