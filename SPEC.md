@@ -158,7 +158,7 @@ Dark only. Define in `src/styles/tokens.css` on `:root`. Set an explicit backgro
   --text:          #E4E6E9;
   --text-body:     rgba(228,230,233,.90);
   --muted:         #8B9299;
-  --faint:         #5E656B;
+  --faint:         #798086;   /* was #5E656B, lightened in M6 to meet WCAG AA */
   --hair:          rgba(255,255,255,.08);
   --hair-strong:   rgba(255,255,255,.16);
   --accent:        #E09B3D;

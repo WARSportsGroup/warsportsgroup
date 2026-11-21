@@ -10,6 +10,9 @@ export default defineConfig({
   trailingSlash: 'never',
   build: {
     format: 'file',
+    // Readers usually land on a single page from a shared link, so inlining
+    // the small stylesheet beats a render-blocking request.
+    inlineStylesheets: 'always',
   },
   markdown: {
     // The unified processor runs rehype plugins. MDX inherits it.
