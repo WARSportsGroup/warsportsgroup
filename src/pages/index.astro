@@ -4,15 +4,10 @@ import IndexRow from '../components/IndexRow.astro';
 import { getWriting, isListed } from '../lib/writing';
 import { HOME } from '../lib/site';
 
-// Featured first, then newest first. Unlisted pieces never appear.
+// Featured first, then in number order. Unlisted pieces never appear.
 const rows = (await getWriting())
   .filter(isListed)
-  .sort(
-    (a, b) =>
-      Number(b.data.featured) - Number(a.data.featured) ||
-      b.data.date.getTime() - a.data.date.getTime() ||
-      b.data.number - a.data.number,
-  );
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.number - b.data.number);
 const latestYear = Math.max(...rows.map((e) => e.data.date.getUTCFullYear()));
 ---
 <BaseLayout description={HOME.description}>
