@@ -5,9 +5,11 @@ import { toRoman } from '../lib/format';
 interface Props {
   headings: MarkdownHeading[];
   variant: 'desktop' | 'mobile';
+  // Prefix mobile entries with the section numeral, matching the headings.
+  numbered?: boolean;
 }
 
-const { headings, variant } = Astro.props;
+const { headings, variant, numbered = true } = Astro.props;
 ---
 {variant === 'desktop' ? (
   <nav class="toc-desktop" aria-label="Contents">
@@ -23,7 +25,7 @@ const { headings, variant } = Astro.props;
     <summary>Contents</summary>
     <ol>
       {headings.map((h, i) => (
-        <li><a href={`#${h.slug}`}>{toRoman(i + 1)}. {h.text}</a></li>
+        <li><a href={`#${h.slug}`}>{numbered && `${toRoman(i + 1)}. `}{h.text}</a></li>
       ))}
     </ol>
   </details>

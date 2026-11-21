@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { entry, headings, readingTime, more } = Astro.props;
-const { title, subtitle, date, number, label, topic, visibility } = entry.data;
+const { title, subtitle, date, number, label, topic, visibility, sectionNumbers } = entry.data;
 const sections = headings.filter((h) => h.depth === 2);
 const showToc = sections.length >= 2;
 ---
@@ -43,10 +43,10 @@ const showToc = sections.length >= 2;
           <span>{readingTime} min read</span>
           {topic && <span>{topic}</span>}
         </div>
-        {showToc && <TableOfContents headings={sections} variant="mobile" />}
+        {showToc && <TableOfContents headings={sections} variant="mobile" numbered={sectionNumbers} />}
       </header>
 
-      <div class="prose">
+      <div class:list={['prose', { unnumbered: !sectionNumbers }]}>
         <slot />
       </div>
 
@@ -196,6 +196,16 @@ const showToc = sections.length >= 2;
     color: var(--accent);
     margin-bottom: 12px;
   }
+  /* A piece that opens on a heading rather than a lede. */
+  .prose > section.chunk:first-child {
+    padding-top: 0;
+  }
+  .prose > section.chunk:first-child h2 {
+    margin-top: 0;
+  }
+  .prose.unnumbered h2::before {
+    content: none;
+  }
   .prose h3 {
     margin: 44px 0 16px;
     font-weight: 500;
@@ -220,6 +230,54 @@ const showToc = sections.length >= 2;
   }
   .prose blockquote p + p {
     margin-top: 16px;
+  }
+  .prose .table-wrap {
+    margin: 32px 0 36px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    line-height: 1.5;
+    border-top: 1px solid var(--hair-strong);
+  }
+  .prose table:has(th:nth-child(4)) {
+    min-width: 600px;
+  }
+  .prose th,
+  .prose td {
+    text-align: left;
+    vertical-align: top;
+    padding: 12px 18px 12px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .prose th:last-child,
+  .prose td:last-child {
+    padding-right: 0;
+  }
+  .prose th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+  .prose td:first-child {
+    color: var(--text);
+  }
+  .prose .sources ol {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    padding-left: 2em;
+  }
+  .prose .sources li {
+    margin: 0 0 10px;
+    overflow-wrap: anywhere;
   }
   .prose ul,
   .prose ol {

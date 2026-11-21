@@ -4,6 +4,8 @@ import { render } from 'astro:content';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import Figure from '../../components/Figure.astro';
 import BarChart from '../../components/BarChart.astro';
+import Table from '../../components/Table.astro';
+import LoopDiagram from '../../components/LoopDiagram.astro';
 import { getWriting, hasPage, isListed, type WritingEntry } from '../../lib/writing';
 import { readingTime } from '../../lib/readingTime';
 
@@ -33,5 +35,5 @@ const { Content, headings } = await render(entry);
 const minutes = entry.data.readingTime ?? readingTime(entry.body ?? '');
 ---
 <ArticleLayout entry={entry} headings={headings} readingTime={minutes} more={more}>
-  <Content components={{ Figure, BarChart }} />
+  <Content components={{ Figure, BarChart, LoopDiagram, table: Table }} />
 </ArticleLayout>

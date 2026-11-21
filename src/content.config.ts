@@ -21,6 +21,8 @@ const writing = defineCollection({
       featured: z.boolean().default(false),
       readingTime: z.number().int().positive().optional(),
       topic: z.string().min(1).optional(),
+      // Off for pieces that carry their own part numbering in the headings.
+      sectionNumbers: z.boolean().default(true),
     })
     .refine((d) => (d.label === 'Private Report') === (d.visibility === 'gated'), {
       message: 'label "Private Report" and visibility "gated" must be used together',
