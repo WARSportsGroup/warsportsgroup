@@ -1,39 +1,15 @@
 ---
-// Placeholder crosshair. Replace this one file to swap in the real SVG logo.
+// The WAR Sports Group mark, drawn from src/lib/mark.ts.
+import { markPaths } from '../lib/mark';
 ---
-<span class="mark" aria-hidden="true"><span></span></span>
+<svg class="mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false" set:html={markPaths('regular')} />
 
 <style>
   .mark {
-    width: 15px;
-    height: 15px;
-    position: relative;
+    width: 20px;
+    height: 20px;
     flex: 0 0 auto;
-  }
-  .mark::before,
-  .mark::after {
-    content: "";
-    position: absolute;
-    background: var(--faint);
-  }
-  .mark::before {
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    transform: translateX(-.5px);
-  }
-  .mark::after {
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    transform: translateY(-.5px);
-  }
-  .mark span {
-    position: absolute;
-    inset: 3.5px;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
+    color: var(--text);
+    overflow: visible;
   }
 </style>

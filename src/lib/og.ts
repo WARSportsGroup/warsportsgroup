@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import { token } from './tokens';
+import { markSvg } from './mark';
 
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
@@ -33,22 +34,18 @@ function titleSize(title: string): number {
   return 56;
 }
 
-// The header crosshair, scaled up: faint cross lines with an accent ring.
+// The site mark, as an inline SVG image so it matches the header exactly.
 function mark(size: number): Node {
-  const inset = size * (3.5 / 15);
-  return h('div', { position: 'relative', display: 'flex', width: size, height: size }, [
-    h('div', { position: 'absolute', left: size / 2 - 1, top: 0, width: 2, height: size, backgroundColor: token('faint') }),
-    h('div', { position: 'absolute', top: size / 2 - 1, left: 0, height: 2, width: size, backgroundColor: token('faint') }),
-    h('div', {
-      position: 'absolute',
-      left: inset,
-      top: inset,
-      width: size - inset * 2,
-      height: size - inset * 2,
-      border: `2px solid ${token('accent')}`,
-      borderRadius: '50%',
-    }),
-  ]);
+  const svg = markSvg('regular', token('text'));
+  return {
+    type: 'img',
+    props: {
+      src: `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`,
+      width: size,
+      height: size,
+      style: { width: size, height: size },
+    },
+  };
 }
 
 export async function renderCard({ eyebrow, title, subtitle }: Card): Promise<Buffer> {
@@ -103,7 +100,7 @@ export async function renderCard({ eyebrow, title, subtitle }: Card): Promise<Bu
         subtitle,
       ),
       h('div', { display: 'flex', alignItems: 'center', marginTop: 'auto' }, [
-        mark(28),
+        mark(32),
         h(
           'div',
           {

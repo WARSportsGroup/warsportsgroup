@@ -86,7 +86,7 @@ Rationale for static: no state, no login to expire, no service to go down, nothi
 │   ├── components/
 │   │   ├── SiteHeader.astro
 │   │   ├── SiteFooter.astro
-│   │   ├── Mark.astro         placeholder crosshair; replace to swap in the logo
+│   │   ├── Mark.astro         the site mark in the header
 │   │   ├── ProgressBar.astro
 │   │   ├── TableOfContents.astro
 │   │   ├── Figure.astro
@@ -111,7 +111,7 @@ Rationale for static: no state, no login to expire, no service to go down, nothi
 │   │   ├── index.astro
 │   │   ├── about.astro
 │   │   ├── 404.astro
-│   │   ├── favicon.svg.ts     favicon generated from tokens.css
+│   │   ├── favicon.svg.ts     favicon: the heavy mark, colored from tokens.css
 │   │   ├── robots.txt.ts
 │   │   ├── sitemap.xml.ts
 │   │   ├── og/
@@ -123,6 +123,7 @@ Rationale for static: no state, no login to expire, no service to go down, nothi
 │   │   └── global.css
 │   └── lib/
 │       ├── format.ts          display numbers, dates, labels, roman numerals
+│       ├── mark.ts            the logo mark's geometry, both weights
 │       ├── og.ts              share card renderer
 │       ├── readingTime.ts
 │       ├── rehypeSections.ts  wraps each H2 section for motion and the TOC
@@ -245,7 +246,6 @@ Dark only. Define in `src/styles/tokens.css` on `:root`. Set an explicit backgro
 - the About role line, the contact mailto link, and the author block contact link
 - the Erie block's left border
 - the gated (Private Report) chip
-- the crosshair mark's ring
 - focus rings and text selection
 
 Nothing else.
@@ -358,9 +358,14 @@ Every section rule on this page stops at the text column, for consistency. (In t
 ## 8. Components
 
 ### 8.1 SiteHeader
-Fixed, full width, `--header-bg` with `backdrop-filter: blur(12px)`, 1px hairline bottom border. Inner bar max `--shell`, 13px vertical padding. Left: wordmark, a 15px crosshair mark (1px cross lines in `--faint` with a 1px accent circle inset 3.5px) plus mono `WAR` at weight 500 followed by `Sports Group` in `--faint`. Right: a single mono uppercase nav link. On the homepage that link is "About"; on About it is "Writing"; on an article it is "About".
+Fixed, full width, `--header-bg` with `backdrop-filter: blur(12px)`, 1px hairline bottom border. Inner bar max `--shell`, 13px vertical padding. Left: wordmark, the 20px WAR Sports Group mark in `--text` plus mono `WAR` at weight 500 followed by `Sports Group` in `--faint`. Right: a single mono uppercase nav link. On the homepage that link is "About"; on About it is "Writing"; on an article it is "About".
 
-The crosshair is a placeholder. It must be swappable for a supplied SVG logo by replacing one component (`Mark.astro`). The favicon (`src/pages/favicon.svg.ts`) draws the same crosshair and is replaced alongside it.
+**The mark** is a thin precision crosshair (logo concept 4, chosen November 2026): an outer ring, a small inner ring, cross lines that stop short of the inner ring, and a fine center plus. It is monochrome. It is defined once, as SVG geometry in `src/lib/mark.ts`, and drawn from there by the header (`Mark.astro`), the share cards and the favicon. It comes in two weights:
+
+- **Regular:** the header and share cards. Its line weight matches the site's hairlines.
+- **Heavy:** the favicon only. Thicker strokes and no center plus, so it stays crisp at 16px, where the regular hairlines would fade.
+
+The geometry is a redraw from the concept image. If a designer supplies a vector file, replace the paths in `src/lib/mark.ts` and every use updates.
 
 Nav and footer links have enlarged tap targets (about 40px tall) through padding offset by negative margin, so nothing moves visually.
 
@@ -400,7 +405,7 @@ Card composition, matching site tokens:
 - Mono eyebrow `{LABEL} / {NUMBER}` in accent (two labels joined with a middle dot). The homepage and About cards use their kickers.
 - Title in Inter 600, wrapped, dominant. Size steps down for longer titles; clamped to three lines.
 - Subtitle in `--muted`, two lines maximum
-- Bottom row: crosshair mark plus `WAR SPORTS GROUP` in mono uppercase
+- Bottom row: the mark (regular weight) plus `WAR SPORTS GROUP` in mono uppercase
 - A single accent line along the top edge
 
 Every page also has `og:title`, `og:description`, `og:image` (with width, height and alt), `og:url`, `twitter:card` set to `summary_large_image`, and a canonical URL. Articles add `og:type=article` and `article:published_time`. The 404 has no canonical URL and uses the homepage card.
@@ -447,13 +452,12 @@ Work one milestone at a time. Deploy at the end of each. All six are complete.
 
 **Still open**
 
-1. **Logo.** The crosshair mark is a placeholder. Swap in the real SVG by replacing `Mark.astro` and the favicon when ready.
-2. **Accent color.** `#E09B3D` is approved provisionally. Revisit once the logo is finalized so they match. It is a single token; the site, share cards and favicon all follow it.
-3. **Erie lifecycle.** "Coming soon" has a shelf life. At publication the block either becomes a single line with a purchase link or Erie gets its own page. The pen name has been scrapped, so linking the book under Matthew's own name is viable.
-4. **The Pattern Is the Answer, full text.** Piece 002 uses the text from the article prototype (about 2,600 words). Replace it if the published version is longer.
+1. **Erie lifecycle.** "Coming soon" has a shelf life. At publication the block either becomes a single line with a purchase link or Erie gets its own page. The pen name has been scrapped, so linking the book under Matthew's own name is viable.
 
 **Resolved**
 
+- **Logo.** Concept 4, the thin crosshair, with a heavier version for the favicon. See 8.1.
+- **Accent color.** `#E09B3D` stays. The mark is monochrome, so nothing needs to match it.
 - **Portrait.** A studio headshot is in place, desaturated by CSS. An in-rink photo in a dark environment would still suit the design better if one becomes available.
 - **Employer naming.** Named: Buffalo Wild Wings Arena in Troy, Michigan, and the Toledo Cherokee of the NCDC.
 - **Ambition line.** Dropped with Matthew's own bio.
@@ -461,6 +465,7 @@ Work one milestone at a time. Deploy at the end of each. All six are complete.
 - **Bio and Erie copy.** Both replaced with Matthew's own.
 - **Gated state.** Kept for future private work, along with the Private Report row on About. No current piece is gated.
 - **Launch inventory.** Five public pieces are live.
+- **The Pattern Is the Answer, full text.** Piece 002 is the complete piece as published at RWDH on April 12, 2026.
 
 ---
 
@@ -493,5 +498,6 @@ Recorded so a future session does not undo them. Each was agreed with Matthew.
 | Canonical host is `www`, no trailing slash | Matches how Vercel serves the domain. |
 | CSS inlined into each page | Removes render-blocking requests; readers usually land on a single page from a shared link. |
 | Favicon generated from `tokens.css` | A static SVG would have put hex colors outside `tokens.css`. |
+| Logo concept 4, with a heavy favicon weight | Of the concepts, its line weight matches the site best in the header and on share cards; the heavy weight fixes its one weakness, legibility at 16px. Concepts with lettering inside the mark were illegible at header size. |
 | Bar chart value labels sit at the right end of the track | Section 8.5 says right-aligned inside the track; the prototype placed them at the end of the bar. |
 | Tables, H3 subheads, sources list and LoopDiagram added | Needed by the longer pieces. All are opt-in per piece and follow the house rules. |
