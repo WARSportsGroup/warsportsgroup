@@ -10,7 +10,7 @@ export const HOME = {
 
 export const ABOUT = {
   kicker: 'About',
-  title: 'Research and analysis on how hockey organizations actually work.',
+  title: 'Understanding the Game Beyond the Ice.',
   description:
-    'WAR Sports Group publishes long-form research and analysis on hockey operations, written by Matthew Meyer.',
+    'WAR Sports Group is an independent platform dedicated to exploring the people, decisions, and systems that shape the game of hockey.',
 };

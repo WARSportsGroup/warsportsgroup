@@ -342,7 +342,7 @@ No cap on row count. The index scrolls indefinitely as work accumulates. An arch
 
 Order is deliberate. Credentials come before publication types, because credentials answer "should I keep reading."
 
-1. Mono "About" kicker, H1 statement, lede paragraph, one supporting paragraph.
+1. Mono "About" kicker, H1 statement ("Understanding the Game Beyond the Ice."), lede paragraph, three supporting paragraphs.
 2. **Who writes this.** 172px square portrait, 1:1, hairline border, `filter: grayscale(1) contrast(1.05) brightness(.95)` applied in CSS so any supplied photo is desaturated automatically. Faint crosshair grid overlay. The photo lives at `src/assets/portrait.jpg` and is optimized to 344px at build; without a photo, a placeholder renders. Name, mono role line in accent ("Founder, WAR Sports Group"), then Matthew's bio in five paragraphs. Desktop layout is a `172px | 1fr` grid with 38px gap; stacks on mobile.
 3. **Background.** Spec table, `38%` label column in mono uppercase `--faint`, value column at 16.5px. Hairlines between rows and above the first. Rows: current role, scouting (with territory), education, certification, focus areas.
 4. **What gets published here.** One row per label with a chip and a one-line description, including Private Report with the private chip.
