@@ -327,7 +327,7 @@ Doubles as the writing index. There is no separate index page and no `/writing` 
 
    **Background video** (`HeroVideo.astro`, added November 2026). Behind the statement block sits a short, muted clip: a lone player under a single spotlight in a dark rink, slowly pushing in to the "WAR SPORTS GROUP" jersey. It plays once and holds on its last frame; it does not loop. It is darkened and faded into `--bg` so the headline always reads first.
    - **Desktop (760px and up):** the clip sits on the right 72% of the width, faded out toward the headline on the left.
-   - **Phones and `prefers-reduced-motion`:** a still of the opening frame only (17KB). The video is never downloaded. On a phone the clip would sit behind the headline, and its closing jersey lettering would compete with it.
+   - **Phones and `prefers-reduced-motion`:** a still of the opening frame only (64KB, noise-reduced and upscaled from the clip). On phones it is softly blurred, because it is magnified several times and the source grain would show. The video is never downloaded. On a phone the clip would sit behind the headline, and its closing jersey lettering would compete with it.
    - Files: `public/media/hero.mp4` (H.264, no audio track, about 350KB) and `public/media/hero-poster.jpg`. Re-encode a replacement clip with `ffmpeg -an -c:v libx264 -crf 24 -movflags +faststart`.
    - Nothing else on the homepage changes: no further images, no hero graphics.
 2. **Index header.** Mono row: "Selected work" left, year right. The year is that of the newest listed piece.

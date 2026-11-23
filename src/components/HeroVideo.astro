@@ -4,7 +4,7 @@
 // on its last frame. Phones and reduced-motion readers never download the video.
 ---
 <div class="hero-media" aria-hidden="true">
-  <img src="/media/hero-poster.jpg" alt="" width="736" height="400" decoding="async" fetchpriority="low" />
+  <img src="/media/hero-poster.jpg" alt="" width="1472" height="800" decoding="async" fetchpriority="low" />
 </div>
 
 <style>
@@ -29,6 +29,12 @@
     object-position: 50% 30%;
     opacity: .35;
   }
+  /* On a phone the still is magnified several times; a soft blur turns the
+     source's grain into atmosphere. Slight scale hides the blurred edges. */
+  .hero-media :global(img) {
+    filter: blur(2.5px);
+    transform: scale(1.04);
+  }
   .hero-media::after {
     content: "";
     position: absolute;
@@ -46,6 +52,10 @@
       width: 72%;
       object-position: 50% 40%;
       opacity: .55;
+    }
+    .hero-media :global(img) {
+      filter: none;
+      transform: none;
     }
     .hero-media::after {
       background:
