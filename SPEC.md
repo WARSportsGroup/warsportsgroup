@@ -95,6 +95,7 @@ Rationale for static: no state, no login to expire, no service to go down, nothi
 │   │   ├── Table.astro        scroll wrapper for MDX tables
 │   │   ├── Chip.astro
 │   │   ├── Portrait.astro
+│   │   ├── HeroVideo.astro
 │   │   ├── AuthorBlock.astro
 │   │   ├── IndexRow.astro
 │   │   └── MoreWork.astro
@@ -131,7 +132,8 @@ Rationale for static: no state, no login to expire, no service to go down, nothi
 │       ├── tokens.ts          reads tokens.css for build-time output
 │       └── writing.ts         loads the collection and enforces cross-file rules
 ├── public/
-│   └── fonts/
+│   ├── fonts/
+│   └── media/                 homepage background clip and its still
 ├── astro.config.mjs
 └── vercel.json
 ```
@@ -321,7 +323,13 @@ MDX must support `<Figure>`, `<BarChart>` and `<LoopDiagram>` without per-file i
 
 Doubles as the writing index. There is no separate index page and no `/writing` route listing.
 
-1. **Statement block.** Mono kicker "Work. Achieve. Repeat." in accent. H1 statement, max 30ch, with large padding above and below. Supporting paragraph in `--muted`, max 44ch. No image, no hero, no graphic.
+1. **Statement block.** Mono kicker "Work. Achieve. Repeat." in accent. H1 statement, max 30ch, with large padding above and below. Supporting paragraph in `--muted`, max 44ch.
+
+   **Background video** (`HeroVideo.astro`, added November 2026). Behind the statement block sits a short, muted clip: a lone player under a single spotlight in a dark rink, slowly pushing in to the "WAR SPORTS GROUP" jersey. It plays once and holds on its last frame; it does not loop. It is darkened and faded into `--bg` so the headline always reads first.
+   - **Desktop (760px and up):** the clip sits on the right 72% of the width, faded out toward the headline on the left.
+   - **Phones and `prefers-reduced-motion`:** a still of the opening frame only (17KB). The video is never downloaded. On a phone the clip would sit behind the headline, and its closing jersey lettering would compete with it.
+   - Files: `public/media/hero.mp4` (H.264, no audio track, about 350KB) and `public/media/hero-poster.jpg`. Re-encode a replacement clip with `ffmpeg -an -c:v libx264 -crf 24 -movflags +faststart`.
+   - Nothing else on the homepage changes: no further images, no hero graphics.
 2. **Index header.** Mono row: "Selected work" left, year right. The year is that of the newest listed piece.
 3. **Rows.** Desktop grid of `62px | 1fr | 128px` for number, content, date. Mobile stacks to a single column with the date last. Each row: mono number in `--faint` turning accent on hover, one chip per label, title, subtitle max 56ch, optional `origin` line. The chip, title, subtitle and origin stack vertically. (The homepage prototype rendered them inline on one line because its spans were never made block level; this spec wins.) Hairline below each row, `--hair-strong` above the first. Row hover tints the background by 1.7% white on desktop only. Gated rows are not links and have no hover.
 4. **Featured row.** Larger title. One maximum.
@@ -500,4 +508,5 @@ Recorded so a future session does not undo them. Each was agreed with Matthew.
 | Favicon generated from `tokens.css` | A static SVG would have put hex colors outside `tokens.css`. |
 | Logo concept 4, with a heavy favicon weight | Of the concepts, its line weight matches the site best in the header and on share cards; the heavy weight fixes its one weakness, legibility at 16px. Concepts with lettering inside the mark were illegible at header size. |
 | Bar chart value labels sit at the right end of the track | Section 8.5 says right-aligned inside the track; the prototype placed them at the end of the bar. |
+| Homepage background video, desktop only | Matthew felt the homepage read as empty. A single, quiet, play-once clip adds presence without breaking the restraint; phones get a still because the clip's lettering would sit behind the headline. |
 | Tables, H3 subheads, sources list and LoopDiagram added | Needed by the longer pieces. All are opt-in per piece and follow the house rules. |

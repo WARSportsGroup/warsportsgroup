@@ -1,0 +1,81 @@
+---
+// Background behind the homepage statement. Everyone gets the opening-frame
+// still. On desktop with motion allowed, the clip plays once over it and holds
+// on its last frame. Phones and reduced-motion readers never download the video.
+---
+<div class="hero-media" aria-hidden="true">
+  <img src="/media/hero-poster.jpg" alt="" width="736" height="400" decoding="async" fetchpriority="low" />
+</div>
+
+<style>
+  .hero-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: min(100vh, 760px);
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .hero-media :global(img),
+  .hero-media :global(video) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    opacity: .35;
+  }
+  .hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      0deg,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 55%, transparent) 40%,
+      color-mix(in srgb, var(--bg) 35%, transparent) 100%
+    );
+  }
+  @media (min-width: 760px) {
+    .hero-media :global(img),
+    .hero-media :global(video) {
+      width: 72%;
+      object-position: 50% 40%;
+      opacity: .55;
+    }
+    .hero-media::after {
+      background:
+        linear-gradient(
+          90deg,
+          var(--bg) 22%,
+          color-mix(in srgb, var(--bg) 55%, transparent) 45%,
+          transparent 70%
+        ),
+        linear-gradient(0deg, var(--bg) 0%, transparent 35%);
+    }
+  }
+</style>
+
+<script>
+  const wide = window.matchMedia('(min-width: 760px)').matches;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const box = document.querySelector('.hero-media');
+  if (box && wide && !still) {
+    const video = document.createElement('video');
+    video.src = '/media/hero.mp4';
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+    video.preload = 'auto';
+    video.setAttribute('poster', '/media/hero-poster.jpg');
+    box.appendChild(video);
+    // Both layers are translucent, so hide the still once the clip is showing.
+    const img = box.querySelector('img');
+    video.addEventListener('playing', () => img?.style.setProperty('visibility', 'hidden'), { once: true });
+    video.play().catch(() => video.remove());
+  }
+</script>
