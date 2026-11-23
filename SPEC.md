@@ -347,7 +347,7 @@ Order is deliberate. Credentials come before publication types, because credenti
 3. **Background.** Spec table, `38%` label column in mono uppercase `--faint`, value column at 16.5px. Hairlines between rows and above the first. Rows: current role, scouting (with territory), education, certification, focus areas.
 4. **What gets published here.** One row per label with a chip and a one-line description, including Private Report with the private chip.
 5. **In progress.** The Erie block: surface panel, 1px hairline border with a 1px accent left border, `FICTION` chip, mono "Coming soon" status, italic title, one paragraph. See open items regarding its lifecycle after publication.
-6. **Contact.** One line stating what he is open to, then a mono accent mailto link, then an "Elsewhere" row of mono uppercase links (RWDH, LinkedIn, X). Only links with a URL render. Matthew's own profiles carry `rel="me"`.
+6. **Contact.** One line stating what he is open to, then a mono accent mailto link, then an "Elsewhere" row of mono uppercase links (RWDH, LinkedIn, X, Elite Prospects). Only links with a URL render. Matthew's own profiles carry `rel="me"`.
 7. **Footer.**
 
 Every section rule on this page stops at the text column, for consistency. (In the prototype, two of them ran the full page width.)
